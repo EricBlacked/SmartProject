@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--set注入-->
+    <bean id="student2" class="com.sun.beans.Student">
+        <property name="name" value="法外狂徒张三" />
+        <property name="age" value="33" />
+        <property name="teacher" ref="teacher" />
+    </bean>
+
+    <!--构造注入-->
+    <bean id="student" class="com.sun.beans.Student">
+        <constructor-arg name="age" value="18" />
+        <constructor-arg name="name" value="lisi" />
+        <constructor-arg name="teacher" ref="teacher" />
+    </bean>
+
+
+    <bean id="teacher" class="com.sun.beans.Teacher">
+        <property name="age" value="45" />
+        <property name="name" value="你大爷" />
+    </bean>
+
+    <!--自动注入-->
+    <bean id="UserDaoDI" class="com.sun.beans.UserDaoDI" autowire="byType" />
+    <bean id="UserDaoImpl" class="com.sun.dao.impl.UserDaoImpl" />
+
+    <!--数组、list集合、set集合、map、properties的注入-->
+    <bean id="typeBean" class="com.sun.beans.TypeBean">
+        <!--数组属性的注入  如果存的是对象，用ref,基本数据类型、String类型、日期类型用value-->
+        <property name="strs">
+            <array>
+                <value>aaaaa</value>
+                <value>bbbbb</value>
+                <value>ccccc</value>
+            </array>
+        </property>
+
+        <!--list集合属性的注入 如果存的是对象，用ref,基本数据类型、String类型、日期类型用value-->
+        <property name="list">
+            <list>
+                <ref bean="student" />
+                <ref bean="student" />
+            </list>
+        </property>
+
+        <!--给set属性注入 如果存的是对象，用ref,基本数据类型、String类型、日期类型用value-->
+        <property name="set">
+            <set>
+                <value>set中的值</value>
+                <value>不可以重复</value>
+            </set>
+        </property>
+
+        <!--给map属性注入 存对象，值用value-ref,存基本数据类型、String、日期类型直接用value-->
+        <property name="map">
+            <map>
+                <entry key="1" value-ref="teacher" />
+            </map>
+        </property>
+
+        <!--给properties属性注入，properties的键和值只能是String类型-->
+        <property name="properties">
+            <props>
+                <prop key="A">11111</prop>
+                <prop key="B">2222</prop>
+            </props>
+        </property>
+    </bean>
+</beans>
